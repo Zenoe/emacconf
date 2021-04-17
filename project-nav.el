@@ -36,3 +36,8 @@
 (defun counsel-ag-at-point ()
   (interactive)
   (counsel-ag (selection-or-thing-at-point) (projectile-project-root)))
+
+(defun dired-project-root ()
+  (interactive)
+  (dired ( projectile-project-root ))
+  )

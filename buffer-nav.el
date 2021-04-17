@@ -119,22 +119,13 @@
     (evil-insert-state)
     )
 
-(defun dired-project-root ()
-  (interactive)
-  (dired ( projectile-project-root ))
-  )
-
 (defun xah-copy-file-path (&optional @dir-path-only-p)
   "Copy the current buffer's file path or dired path to `kill-ring'.
 Result is full path.
 If `universal-argument' is called first, copy only the dir path.
-
 If in dired, copy the file/dir cursor is on, or marked files.
-
 If a buffer is not file and not dired, copy value of `default-directory' (which is usually the “current” dir when that buffer was created)
-
-URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
-Version 2017-09-01"
+URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'"
   (interactive "P")
   (let (($fpath
          (if (string-equal major-mode 'dired-mode)
@@ -161,20 +152,3 @@ Version 2017-09-01"
       (message (kill-new (abbreviate-file-name ( file-name-nondirectory filename ))))
     (error "Couldn't find filename in current buffer")))
 
-(map! :leader
-      (:prefix ("v" . "misc")
-        :desc "copy filename"          "f"  #'copy_file_name
-        :desc "copy path"          "p"  #'xah-copy-file-path
-        :desc ""                   "." #'dired-project-root
-        :desc "goto function name" "a" #'gotofunname
-        :desc "downlist"               "d"  #'down-list
-
-        ;; :desc "uplist"                 "u"  #'backward-up-list
-        ;; :desc "clip mon"            "c"  #'clipmon-autoinsert-toggle
-
-        )
-      )
-
-;; (map!
-;;  :m  "ze"    #'searchb4spaceorbracket
-;;         )
