@@ -1,9 +1,11 @@
+;;; key bindings
+;;;
 (load-file ( concat myset-folder "./customsetting.el"))
-(load-file ( concat myset-folder "./misc.el"))
-(load-file ( concat myset-folder "./nav.el"))
+(load-file ( concat myset-folder "./buffer-nav.el"))
+(load-file ( concat myset-folder "./project-nav.el"))
 (load-file ( concat myset-folder "./quickedit.el"))
 
-(nvmap "gl" 'evil-last-non-blank)
+;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
 (nvmap "gh" 'counsel-projectile-ag)
 (nvmap "g[" 'counsel-projectile-rg)
@@ -80,9 +82,7 @@
 ;; (global-set-key (kbd "M-p") 'move-up-half)
 ;; (global-set-key (kbd "M-n") 'move-down-half)
 
-;; (require 'helm-ag)
 (global-set-key (kbd "C-s") 'force-normal-n-save)
-;; (global-set-key (kbd "C-\\") 'helm-ag)
 
 ;; (global-set-key (kbd "M-p") 'move-up-half)
 ;; (global-set-key (kbd "M-n") 'move-down-half)
@@ -94,3 +94,22 @@
 ;; (unbind-key "C-x z")
 ;; (bind-key "C-x C-z" 'repeat)
 ;; (bind-key "C-x C-e" 'eval-current-line)
+
+
+(map! :leader
+      (:prefix ("v" . "misc")
+        :desc "copy filename"          "f"  #'copy_file_name
+        :desc "copy path"          "p"  #'xah-copy-file-path
+        :desc ""                   "." #'dired-project-root
+        :desc "goto function name" "a" #'gotofunname
+        :desc "downlist"               "d"  #'down-list
+
+        ;; :desc "uplist"                 "u"  #'backward-up-list
+        ;; :desc "clip mon"            "c"  #'clipmon-autoinsert-toggle
+
+        )
+      )
+
+;; (map!
+;;  :m  "ze"    #'searchb4spaceorbracket
+;;         )
