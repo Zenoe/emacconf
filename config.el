@@ -22,6 +22,14 @@
 (nvmap "[e" 'flycheck-previous-error)
 (nvmap "]e" 'flycheck-next-error)
 
+;; dumb-jump is much faster then xref-definition, don't know why
+(setq +lookup-definition-functions
+  '(+lookup-dumb-jump-backend-fn
+    +lookup-xref-definitions-backend-fn
+    +lookup-project-search-backend-fn
+    +lookup-evil-goto-definition-backend-fn)
+)
+
 (global-set-key (kbd "C-x C-n") 'yf/replace-or-delete-pair)
 
 (define-key evil-normal-state-map (kbd "M-;")
