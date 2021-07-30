@@ -53,5 +53,3 @@
 (global-set-key (kbd "C-<up>") 'mc/mark-previous-like-this)
 ;; (setq xref-js2-search-program 'ag)
 
-(require 'core-packages)
-(package! xclip)

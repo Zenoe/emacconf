@@ -67,6 +67,7 @@
      (evil-visual-char)
      (evil-end-of-line)
      (evil-yank (region-beginning) (region-end))
+     (evil-force-normal-state)
    )
 
 ;; (defun paste-next-line ()

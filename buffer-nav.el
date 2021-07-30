@@ -49,6 +49,8 @@
         (deactivate-mark)
       t
       )
+    (evil-yank oldpt  (+( point ) 1) )
+    (keyboard-quit)
     )
   )
 
