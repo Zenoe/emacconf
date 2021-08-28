@@ -32,6 +32,11 @@
 ;; (setq typescript-indent-level 2)
 ;; (setq js-indent-level 2);; not work
 (add-hook 'js2-mode-hook (lambda () (setq js-indent-level 2)))
+
+;; Emacs comes with hs-minor-mode which can be used selectively hide/show code and comment blocks in several languages,
+;; including JavaScript. By default this will let you hide and show JSON blocks delimited by '{' and '}' but it is easily
+;; modified to allow '[' and ']' as block delimeters as well. To do this we need to modify the js-mode entry in hs-special-modes-alist with something like:
+(add-hook 'js2-mode-hook (lambda () (setcdr (assoc 'js-mode hs-special-modes-alist) '("[{[]" "[}\\]]" "/[*/]" nil))))
 ;;
 ;; (setq evil-ex-search-case 'sensitive)
 ;; (add-to-list 'projectile-globally-ignored-files '("yarn.lock" "node_modules"))
