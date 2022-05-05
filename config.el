@@ -8,21 +8,23 @@
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
 (nvmap "gh" 'counsel-projectile-ag)
-(nvmap "g[" 'counsel-projectile-rg)
+;; (nvmap "g[" 'counsel-projectile-rg)
 
 (nvmap "gb" 'sp-splice-sexp)
 (nvmap "zv" 'selcurrentline)
+(nvmap "z0" 'YankFrom0)
 (nvmap "z;" 'selectBlock)
 (nvmap "zs" 'surround-region-with-if)
 (nvmap "zw" 'move-buffer-to-window)
 (nvmap "g;" 'gotoLastChange)
 (nvmap "ze" 'searchb4spaceorbracket)
-(nvmap "zg" 'sgml-skip-tag-forward)
-(nvmap "zG" 'sgml-skip-tag-backward)
+(nvmap "z]" 'sgml-skip-tag-forward)
+(nvmap "z[" 'sgml-skip-tag-backward)
 (nvmap "zp" 'yank-and-indent)
 (nvmap "go" 'comment-line)
 (nvmap "[e" 'flycheck-previous-error)
 (nvmap "]e" 'flycheck-next-error)
+(nvmap "zg" 'isearch-forward-region)
 
 ;; dumb-jump is much faster then xref-definition, don't know why
 (setq +lookup-definition-functions
@@ -89,7 +91,7 @@
 ;; (define-key evil-normal-state-map (kbd ", SPC") 'recentf-open-most-recent-file-3)
 (define-key evil-insert-state-map (kbd "M-SPC") 'surround-next-text)
 (define-key evil-insert-state-map (kbd "M-;") 'yank)
-(define-key evil-insert-state-map (kbd "M-o") 'insert-next-line)
+;; (define-key evil-insert-state-map (kbd "M-o") 'insert-next-line)
 ;; (bind-key "C-x C-e" 'eval-current-line)
 ;; (unbind-key "C-x z")
 ;; (bind-key "C-x C-z" 'repeat)
@@ -103,6 +105,7 @@
         :desc ""                   "." #'dired-project-root
         :desc "goto function name" "a" #'gotofunname
         :desc "downlist"               "d"  #'down-list
+        :desc ""               "o"  #'insert-next-line
 
         ;; :desc "uplist"                 "u"  #'backward-up-list
         ;; :desc "clip mon"            "c"  #'clipmon-autoinsert-toggle
@@ -113,3 +116,8 @@
 ;; (map!
 ;;  :m  "ze"    #'searchb4spaceorbracket
 ;;         )
+
+(load "doom-themes-ext-org")
+(load "doom-themes")
+;; Load my theme
+(setq doom-theme 'doom-dark+)

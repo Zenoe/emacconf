@@ -184,3 +184,27 @@ the user if not found."
                        (single-key-description open 'no-angles)
                        open))))
       (yf/replace-pair open close))))
+
+
+;; C-x n n
+;; C-s sometext
+;; C-x n w
+
+(defun isearch-forward-region-cleanup ()
+  "turn off variable, widen"
+  (if isearch-forward-region
+      (widen))
+  (setq isearch-forward-region nil))
+
+(defvar isearch-forward-region nil
+  "variable used to indicate we're in region search")
+
+(add-hook 'isearch-mode-end-hook 'isearch-forward-region-cleanup)
+
+(defun isearch-forward-region (&optional regexp-p no-recursive-edit)
+  "Do an isearch-forward, but narrow to region first."
+  (interactive "P\np")
+  (narrow-to-region (point) (mark))
+  (goto-char (point-min))
+  (setq isearch-forward-region t)
+  (isearch-mode t (not (null regexp-p)) nil (not no-recursive-edit)))

@@ -26,9 +26,9 @@
 (defun YankFrom0 ()
   "replace the current word with text from register 0"
   (interactive)
-  (kill-word 1)
+  ;; (kill-word 1)
   ;; 48 is the ascii code for char '0'
-  (evil-paste-before nil 48)
+  (evil-paste-after nil 48)
   )
 
 (defun searchb4spaceorbracket ()
@@ -37,7 +37,7 @@
   (let ((oldpt ( point ))
         )
     ;; (while (not (eolp))
-    (while (not (memq (char-after) '(?\t ?\n ?\s ?\( ?\) ?\] ?\[)))
+    (while (not (memq (char-after) '(?\t ?\n ?\s ?\( ?\) ?\] ?\[ ?\, ?\; ?\. ?\: ?\" ?\')))
       (evil-forward-char 1))
 
     ;; (message "%d, %d" oldpt (point))

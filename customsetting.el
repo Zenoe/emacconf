@@ -9,8 +9,16 @@
 ;;(require 'helm)
 ;;(set-face-attribute 'helm-selection nil :background "#EFFFE0" :foreground "black")
 
-;; (set-face-attribute 'region nil :background "#909090" :foreground "#DD00D8" )
-;; (set-face-attribute 'lazy-highlight nil :foreground "red" :background "black")
+;; cygwin theme: 'gruvbox'
+;; doom theme: 'dark+'
+;; (set-face-attribute 'region nil :background "#105000" :foreground "#FE90D8" )
+;;(require 'swiper)
+;;(set-face-attribute 'swiper-line-face nil :background "blue" :foreground "white")
+;;(set-face-attribute 'swiper-match-face-1 nil :background "#101010" :foreground "orange")
+
+;; in variable: doom-themes--faces
+;; has (evil-search-highlight-persist-highlight-face :inherit 'lazy-highlight)
+;; (set-face-attribute 'lazy-highlight nil :foreground "black" :background "white")
 
 ;; (custom-set-faces
 ;;  '(link ((t (:foreground "#570057"))))
