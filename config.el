@@ -1,9 +1,10 @@
 ;;; key bindings
 ;;;
-(load-file ( concat myset-folder "./customsetting.el"))
-(load-file ( concat myset-folder "./buffer-nav.el"))
-(load-file ( concat myset-folder "./project-nav.el"))
-(load-file ( concat myset-folder "./quickedit.el"))
+(defvar myset-folder "~/.doom.d/emacconf")
+(load-file ( concat myset-folder "/customsetting.el"))
+(load-file ( concat myset-folder "/buffer-nav.el"))
+(load-file ( concat myset-folder "/project-nav.el"))
+(load-file ( concat myset-folder "/quickedit.el"))
 
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
