@@ -5,12 +5,32 @@
 (load-file ( concat myset-folder "/buffer-nav.el"))
 (load-file ( concat myset-folder "/project-nav.el"))
 (load-file ( concat myset-folder "/quickedit.el"))
+(load-file ( concat myset-folder "/super-save.el"))
+(load-file ( concat myset-folder "/tmux-keymap.el"))
+
+;; var setting must come before mode setting t
+;; if super-save-auto-save-when-idle were put after
+;; (super-save-mode t), it would take no effect first time
+;; emacs loaded
+(setq super-save-auto-save-when-idle t)
+;; when setting super-save-mode, it check variables to
+;; do proper initialization
+(super-save-mode t)
+(setq auto-save-default nil)
+
+;; auto save when switching to another one
+;; (defun ora-save-and-switch-buffer ()
+;;   (interactive)
+;;   (when (and (buffer-file-name)
+;;              (not (bound-and-true-p archive-subfile-mode)))
+;;     (save-buffer))
+;;   (ido-switch-buffer))
+
 
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
 (nvmap "gh" 'counsel-projectile-ag)
 ;; (nvmap "g[" 'counsel-projectile-rg)
-
 (nvmap "gb" 'sp-splice-sexp)
 (nvmap "zv" 'selcurrentline)
 (nvmap "z0" 'YankFrom0)
@@ -122,3 +142,6 @@
 (load "doom-themes")
 ;; Load my theme
 (setq doom-theme 'doom-dark+)
+
+;; tmux would change ctrl shift arrow key binding to as follows
+;; (global-set-key "\M-[1;6n" 'windmove-up)

@@ -43,7 +43,7 @@
 (defun selectBlock ()
   (interactive)
   (evil-visual-char)
-  (evil-first-non-blank)
+  (evil-beginning-of-line)
   (exchange-point-and-mark)
   (evil-last-non-blank)
   (evil-jump-item)
