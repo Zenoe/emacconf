@@ -7,7 +7,8 @@
 (load-file ( concat myset-folder "/quickedit.el"))
 (load-file ( concat myset-folder "/super-save.el"))
 (load-file ( concat myset-folder "/tmux-keymap.el"))
-
+(load-file ( concat myset-folder "/window.el"))
+(setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
 ;; if super-save-auto-save-when-idle were put after
 ;; (super-save-mode t), it would take no effect first time
@@ -18,14 +19,9 @@
 (super-save-mode t)
 (setq auto-save-default nil)
 
-;; auto save when switching to another one
-;; (defun ora-save-and-switch-buffer ()
-;;   (interactive)
-;;   (when (and (buffer-file-name)
-;;              (not (bound-and-true-p archive-subfile-mode)))
-;;     (save-buffer))
-;;   (ido-switch-buffer))
-
+;; (evil-mc-mode t)
+(multiple-cursors-mode nil)
+(global-evil-mc-mode  1)
 
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
