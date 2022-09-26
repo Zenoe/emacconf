@@ -208,3 +208,9 @@ the user if not found."
   (goto-char (point-min))
   (setq isearch-forward-region t)
   (isearch-mode t (not (null regexp-p)) nil (not no-recursive-edit)))
+
+(defun change-surround ()
+  ( interactive )
+  ;; (evil-surround-change ?\( )
+  (evil-surround-change (char-after) )
+  )

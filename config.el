@@ -51,7 +51,7 @@
     +lookup-evil-goto-definition-backend-fn)
 )
 
-(global-set-key (kbd "C-x C-n") 'yf/replace-or-delete-pair)
+(global-set-key (kbd "C-x C-n") 'change-surround)
 
 (define-key evil-normal-state-map (kbd "M-;")
   ;; insert a character at the end of current line. semicolon default
