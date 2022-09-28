@@ -1,13 +1,14 @@
 ;;; key bindings
 ;;;
 (defvar myset-folder "~/.doom.d/emacconf")
-(load-file ( concat myset-folder "/customsetting.el"))
-(load-file ( concat myset-folder "/buffer-nav.el"))
-(load-file ( concat myset-folder "/project-nav.el"))
-(load-file ( concat myset-folder "/quickedit.el"))
-(load-file ( concat myset-folder "/super-save.el"))
-(load-file ( concat myset-folder "/tmux-keymap.el"))
-(load-file ( concat myset-folder "/window.el"))
+(load ( concat myset-folder "/customsetting"))
+(load ( concat myset-folder "/buffer-nav"))
+(load ( concat myset-folder "/project-nav"))
+(load ( concat myset-folder "/quickedit"))
+(load ( concat myset-folder "/super-save"))
+(load ( concat myset-folder "/tmux-keymap"))
+(load ( concat myset-folder "/window"))
+;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
 ;; if super-save-auto-save-when-idle were put after
@@ -52,7 +53,6 @@
 )
 
 (global-set-key (kbd "C-x C-n") 'change-surround)
-
 (define-key evil-normal-state-map (kbd "M-;")
   ;; insert a character at the end of current line. semicolon default
   (lambda(c)
@@ -123,6 +123,7 @@
         :desc "goto function name" "a" #'gotofunname
         :desc "downlist"               "d"  #'down-list
         :desc ""               "o"  #'insert-next-line
+        :desc ""                "j" #'projectile-find-file-dwim
 
         ;; :desc "uplist"                 "u"  #'backward-up-list
         ;; :desc "clip mon"            "c"  #'clipmon-autoinsert-toggle
@@ -134,10 +135,8 @@
 ;;  :m  "ze"    #'searchb4spaceorbracket
 ;;         )
 
-(load "doom-themes-ext-org")
-(load "doom-themes")
-;; Load my theme
-(setq doom-theme 'doom-dark+)
+;; (load "doom-themes")
+;; (setq doom-theme 'doom-dark+)
 
 ;; tmux would change ctrl shift arrow key binding to as follows
 ;; (global-set-key "\M-[1;6n" 'windmove-up)
