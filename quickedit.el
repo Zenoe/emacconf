@@ -48,7 +48,7 @@
   (evil-last-non-blank)
   (evil-jump-item)
   (evil-end-of-line)
-  (evil-yank (region-beginning) (region-end) )
+  (evil-yank  (region-end) (region-beginning))
   ;; (evil-force-normal-state)
   )
 

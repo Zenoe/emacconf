@@ -21,8 +21,7 @@
 (setq auto-save-default nil)
 
 ;; (evil-mc-mode t)
-(multiple-cursors-mode nil)
-(global-evil-mc-mode  1)
+;; (global-evil-mc-mode  1)
 
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
@@ -140,3 +139,8 @@
 
 ;; tmux would change ctrl shift arrow key binding to as follows
 ;; (global-set-key "\M-[1;6n" 'windmove-up)
+
+(require 'prettier-js)
+(setq-hook! 'js-mode-hook +format-with-lsp nil)
+(setq-hook! 'js-mode-hook +format-with :none)
+(add-hook 'js-mode-hook 'prettier-js-mode)
