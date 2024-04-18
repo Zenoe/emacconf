@@ -14,6 +14,15 @@
 ;;                  (let ((mark-even-if-inactive transient-mark-mode))
 ;;                    (indent-region (region-beginning) (region-end) nil))))))
 
+(defun my-evil-paste-after-and-delete ()
+  "paste to replace without modifing kill ring"
+  (interactive)
+  (let ((text-to-paste (car kill-ring)))
+    (message text-to-paste)
+    (delete-region (region-beginning) (region-end))
+    (insert text-to-paste)
+    ))
+
 (defun current-line-empty-p ()
   (message "icurrent-line-empty-p")
   (string-match-p "\\`\\s-*$" (thing-at-point 'line)))

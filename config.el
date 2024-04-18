@@ -14,7 +14,7 @@
 ;; if super-save-auto-save-when-idle were put after
 ;; (super-save-mode t), it would take no effect first time
 ;; emacs loaded
-(setq super-save-auto-save-when-idle t)
+;; (setq super-save-auto-save-when-idle t)
 ;; when setting super-save-mode, it check variables to
 ;; do proper initialization
 (super-save-mode t)
@@ -38,6 +38,7 @@
 (nvmap "z]" 'sgml-skip-tag-forward)
 (nvmap "z[" 'sgml-skip-tag-backward)
 (nvmap "zp" 'yank-and-indent)
+(nvmap "zy" 'my-evil-paste-after-and-delete)
 (nvmap "go" 'comment-line)
 (nvmap "[e" 'flycheck-previous-error)
 (nvmap "]e" 'flycheck-next-error)
@@ -144,3 +145,8 @@
 (setq-hook! 'js-mode-hook +format-with-lsp nil)
 (setq-hook! 'js-mode-hook +format-with :none)
 (add-hook 'js-mode-hook 'prettier-js-mode)
+
+
+(require 'vertico)
+(custom-set-faces
+ '(vertico-current ((t (:background "#BFBBFF")))))
