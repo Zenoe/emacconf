@@ -8,6 +8,7 @@
 (load ( concat myset-folder "/super-save"))
 (load ( concat myset-folder "/tmux-keymap"))
 (load ( concat myset-folder "/window"))
+(load ( concat myset-folder "/embark-config"))
 ;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
