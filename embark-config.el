@@ -22,10 +22,14 @@
 ;; (list string): convert single string to a list
 (map!
  :map embark-general-map
- :desc "copy text" "x" (lambda (string) ( copy-line-without-metadata (list string) ))
+ :desc "copy text" "[" (lambda (string) ( copy-line-without-metadata (list string) ))
  )
 
-
+;; original keybind is from .emacs.d/modules/completion/vertico/config.el
+;; where the embark-act is binded to C-;
+(map! [remap describe-bindings] #'embark-bindings
+        "M-o"               #'embark-act  ; to be moved to :config default if accepted
+        )
 ;; not work in eval-buffer, don't know why
 ;; only work when eval-last-sexp
 ;; (defvar-keymap embark-general-map

@@ -9,6 +9,7 @@
 (load ( concat myset-folder "/tmux-keymap"))
 (load ( concat myset-folder "/window"))
 (load ( concat myset-folder "/embark-config"))
+(load ( concat myset-folder "/dap-config"))
 ;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
@@ -26,8 +27,7 @@
 
 ;; (nvmap "gl" 'evil-last-non-blank)
 ;; (nvmap "gy" 'paste-next-line)
-(nvmap "gh" 'counsel-projectile-ag)
-;; (nvmap "g[" 'counsel-projectile-rg)
+;; (nvmap "gh" 'counsel-projectile-ag)
 (nvmap "gb" 'sp-splice-sexp)
 (nvmap "zv" 'selcurrentline)
 (nvmap "z0" 'YankFrom0)
@@ -44,6 +44,8 @@
 (nvmap "[e" 'flycheck-previous-error)
 (nvmap "]e" 'flycheck-next-error)
 (nvmap "zg" 'isearch-forward-region)
+(nvmap "gp" 'my/evil-select-pasted)
+(nvmap "[z" 'my/flip-symbol)
 
 ;; dumb-jump is much faster then xref-definition, don't know why
 (setq +lookup-definition-functions
@@ -71,6 +73,7 @@
       )
     )
   )
+
 
 (define-key evil-normal-state-map (kbd "RET")
   (lambda(count)
@@ -119,7 +122,6 @@
 (map! :leader
       (:prefix ("v" . "misc")
         :desc "copy filename"          "f"  #'copy_file_name
-        :desc "copy path"          "p"  #'xah-copy-file-path
         :desc ""                   "." #'dired-project-root
         :desc "goto function name" "a" #'gotofunname
         :desc "downlist"               "d"  #'down-list

@@ -126,6 +126,8 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 
 (defun insert-next-line ()
   ;; go to next line to edit especially in insert state
+  ;; no continuation of comments
+  ;; (setq +evil-want-o/O-to-continue-comments nil)
   (interactive)
   (evil-end-of-line)
   (evil-open-below 1)
@@ -224,3 +226,33 @@ the user if not found."
   (evil-surround-change (char-after) )
   )
 
+(defun my/evil-select-pasted ()
+  (interactive)
+  (let ((start-marker (evil-get-marker ?\[))
+        (end-marker (evil-get-marker ?\])))
+        (evil-visual-select start-marker end-marker)))
+
+(require 'dash)
+(defvar my-flip-symbol-alist
+  '(("true" . "false")
+    ("false" . "true"))
+  "symbols to be quick flipped when editing")
+
+(defun my/flip-symbol ()
+  "\"I don't want to type here, just do it for me.\""
+  (interactive)
+  (-let* (((beg . end) (bounds-of-thing-at-point 'symbol))
+          (sym (buffer-substring-no-properties beg end)))
+    (when (member sym (cl-loop for cell in my-flip-symbol-alist
+                               collect (car cell)))
+      (delete-region beg end)
+      (insert (alist-get sym my-flip-symbol-alist "" nil 'equal)))))
+
+;; (defun evil-select-pasted ()
+;;   "Visually select last pasted text."
+;;   (interactive)
+;;   (evil-goto-mark ?\[)
+;;   (evil-visual-char)
+;;   (evil-goto-mark ?\]))
+(set-popup-rule! "^\\*Async Shell Command" :vslot 1 :ttl nil)
+;; (set-popup-rule! "^\\*Async Shell Command" :size 0.3 :ttl nil :select t)
