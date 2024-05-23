@@ -10,6 +10,7 @@
 (load ( concat myset-folder "/window"))
 (load ( concat myset-folder "/embark-config"))
 (load ( concat myset-folder "/dap-config"))
+(load ( concat myset-folder "/codeium"))
 ;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
@@ -138,8 +139,8 @@
 ;;  :m  "ze"    #'searchb4spaceorbracket
 ;;         )
 
-;; (load "doom-themes")
-;; (setq doom-theme 'doom-dark+)
+(load "doom-themes")
+(setq doom-theme 'wombat)
 
 ;; tmux would change ctrl shift arrow key binding to as follows
 ;; (global-set-key "\M-[1;6n" 'windmove-up)
@@ -150,6 +151,7 @@
 (add-hook 'js-mode-hook 'prettier-js-mode)
 
 
-(require 'vertico)
-(custom-set-faces
- '(vertico-current ((t (:background "#BFBBFF")))))
+;; (require 'vertico)
+;; (custom-set-faces
+;;  '(vertico-current ((t (:foreground "#839496" :background "#002B36" :weight bold))))
+;;  )
