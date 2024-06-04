@@ -26,9 +26,6 @@
 ;; (evil-mc-mode t)
 ;; (global-evil-mc-mode  1)
 
-;; (nvmap "gl" 'evil-last-non-blank)
-;; (nvmap "gy" 'paste-next-line)
-;; (nvmap "gh" 'counsel-projectile-ag)
 (nvmap "gb" 'sp-splice-sexp)
 (nvmap "zv" 'selcurrentline)
 (nvmap "z0" 'YankFrom0)
@@ -40,7 +37,7 @@
 (nvmap "z]" 'sgml-skip-tag-forward)
 (nvmap "z[" 'sgml-skip-tag-backward)
 (nvmap "zp" 'yank-and-indent)
-(nvmap "zy" 'my-evil-paste-after-and-delete)
+;; (nvmap "zy" 'my-evil-paste-after-and-delete)
 (nvmap "go" 'comment-line)
 (nvmap "[e" 'flycheck-previous-error)
 (nvmap "]e" 'flycheck-next-error)
@@ -56,7 +53,7 @@
     +lookup-evil-goto-definition-backend-fn)
 )
 
-(global-set-key (kbd "C-x C-n") 'change-surround)
+(global-set-key (kbd "C-x C-n") 'replace-matching-paren)
 (define-key evil-normal-state-map (kbd "M-;")
   ;; insert a character at the end of current line. semicolon default
   (lambda(c)
@@ -126,6 +123,7 @@
         :desc ""                   "." #'dired-project-root
         :desc "goto function name" "a" #'gotofunname
         :desc "downlist"               "d"  #'down-list
+        :desc "uplist"               "u"  #'up-list
         :desc ""               "o"  #'insert-next-line
         :desc ""                "j" #'projectile-find-file-dwim
 
@@ -135,6 +133,7 @@
         )
       )
 
+;; C-M-u： backward-up-list
 ;; (map!
 ;;  :m  "ze"    #'searchb4spaceorbracket
 ;;         )
@@ -151,7 +150,7 @@
 (add-hook 'js-mode-hook 'prettier-js-mode)
 
 
-;; (require 'vertico)
-;; (custom-set-faces
-;;  '(vertico-current ((t (:foreground "#839496" :background "#002B36" :weight bold))))
-;;  )
+(require 'vertico)
+(custom-set-faces
+ '(vertico-current ((t (:foreground "#839496" :background "#D02B36" :weight bold))))
+ )

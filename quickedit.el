@@ -79,15 +79,6 @@
      (evil-force-normal-state)
    )
 
-;; (defun paste-next-line ()
-;;   "trim text in kill-ring and paste in the next line with proper indentation"
-;;   (interactive)
-;;   (evil-open-below())
-;;   (insert (trim-string (car kill-ring)))
-;;   (evil-normal-state)
-;;     ;; (yank)
-;;  )
-
 ;; (defun was-yanked ()
 ;;   "When called after a yank, store last yanked value in let-bound yanked."
 ;;   "http://stackoverflow.com/questions/22960031/save-yanked-text-to-string-in-emacs "
@@ -220,12 +211,6 @@ the user if not found."
   (setq isearch-forward-region t)
   (isearch-mode t (not (null regexp-p)) nil (not no-recursive-edit)))
 
-(defun change-surround ()
-  ( interactive )
-  ;; (evil-surround-change ?\( )
-  (evil-surround-change (char-after) )
-  )
-
 (defun my/evil-select-pasted ()
   (interactive)
   (let ((start-marker (evil-get-marker ?\[))
@@ -256,3 +241,57 @@ the user if not found."
 ;;   (evil-goto-mark ?\]))
 (set-popup-rule! "^\\*Async Shell Command" :vslot 1 :ttl nil)
 ;; (set-popup-rule! "^\\*Async Shell Command" :size 0.3 :ttl nil :select t)
+
+; ?\{ is the Emacs Lisp notation for the character {
+(defun replace-matching-paren (new-op)
+  "Replace the current operator under the cursor with NEW-OP and its matching pair."
+  (interactive "cEnter the new operator: ")
+  (let* ((current-char (char-after (point)))
+         (new-close-op (cond
+                        ((equal new-op ?\{) ?\})
+                        ((equal new-op ?\[) ?\])
+                        ((equal new-op ?\<) ?\>)
+                        ((equal new-op ?\() ?\))
+                        ((equal new-op ?\") ?\")
+                        ((equal new-op ?\') ?\')
+                        (t new-op)))
+         (current-pair (cond
+                        ((equal current-char ?\{) '(?\{ . ?\}))
+                        ((equal current-char ?\[) '(?\[ . ?\]))
+                        ((equal current-char ?\<) '(?\< . ?\>))
+                        ((equal current-char ?\() '(?\( . ?\)))
+                        ((equal current-char ?\") '(?\" . ?\"))
+                        ((equal current-char ?\') '(?\' . ?\'))
+                        (t nil))))
+    (if current-pair
+        (let ((current-open (car current-pair))
+              (current-close (cdr current-pair))
+              (pos (point)))
+          (save-excursion
+            ;; Find and replace the closing operator
+            (let ((current-char (char-after)))
+              (cond
+               ((member current-char '(?\( ?\{ ?\[)) (evil-jump-item)  ;; Jump to the matching operator
+                (if (equal (char-after (point)) current-close)
+                    (progn
+                      (delete-char 1)
+                      (insert (char-to-string new-close-op)))
+                  (error "Matching closing operator not found")))
+               (t
+                ;; (message "xxxx %s" (char-to-string current-close))
+                (forward-char 1)
+                (if (search-forward (char-to-string current-close) nil t)
+                    (progn
+                      (backward-delete-char 1)
+                      (insert (char-to-string new-close-op)))
+                  (error "Matching closing operator not found"))
+                )))
+            )
+          ;; Replace the opening operator
+          (if (equal (char-after pos) current-open)
+              (progn
+                (delete-char 1)
+                (insert (char-to-string new-op)))
+            (error "Cursor is not on an operator %s" (char-to-string (char-after pos))))
+          )
+      )))
