@@ -37,7 +37,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 
 
-;; (setq typescript-indent-level 2)
+(setq typescript-indent-level 2)
 ;; (setq js-indent-level 2);; not work
 (add-hook 'js2-mode-hook (lambda () (setq js-indent-level 2)))
 ;; (add-hook 'js2-mode-hook (lambda () (setq super-save-auto-save-when-idle nil)))

@@ -32,6 +32,7 @@
 (nvmap "z;" 'selectBlock)
 (nvmap "zs" 'surround-region-with-if)
 (nvmap "zw" 'move-buffer-to-window)
+(nvmap "zm" 'toggle-fold-indent)
 (nvmap "g;" 'gotoLastChange)
 (nvmap "ze" 'searchb4spaceorbracket)
 (nvmap "z]" 'sgml-skip-tag-forward)
@@ -154,3 +155,6 @@
 (custom-set-faces
  '(vertico-current ((t (:foreground "#839496" :background "#D02B36" :weight bold))))
  )
+
+;; (use-package! lsp-tailwindcss)
+(use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
