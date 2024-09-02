@@ -61,6 +61,13 @@
   ;; (evil-force-normal-state)
   )
 
+(defun selectHtmlTagBlock ()
+  (interactive)
+  (evil-visual-line)
+  (sgml-skip-tag-forward 1)
+  (evil-yank  (region-end) (region-beginning))
+  )
+;;
 (defun gotoLastChange ()
   (interactive)
   (goto-last-change 1)
@@ -220,7 +227,10 @@ the user if not found."
 (require 'dash)
 (defvar my-flip-symbol-alist
   '(("true" . "false")
-    ("false" . "true"))
+    ("false" . "true")
+    ("let" . "const")
+    ("const" . "let")
+    )
   "symbols to be quick flipped when editing")
 
 (defun my/flip-symbol ()

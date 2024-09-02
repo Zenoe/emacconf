@@ -1,3 +1,13 @@
+;;;
+(setq url-proxy-services
+      '(("no_proxy" . "localhost") ; Bypass proxy for localhost
+        ("http" . "10.110.198.52:20171")
+        ("https" . "10.110.198.52:20171")))
+
+;; Set environment variables for proxy
+(setenv "http_proxy" "http://10.110.198.52:20171")
+(setenv "https_proxy" "http://10.110.198.52:20171")
+
 ;;; key bindings
 ;;;
 (defvar myset-folder "~/.doom.d/emacconf")
@@ -11,6 +21,7 @@
 (load ( concat myset-folder "/embark-config"))
 (load ( concat myset-folder "/dap-config"))
 (load ( concat myset-folder "/codeium"))
+(load ( concat myset-folder "/treesitter"))
 ;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
@@ -36,6 +47,7 @@
 (nvmap "g;" 'gotoLastChange)
 (nvmap "ze" 'searchb4spaceorbracket)
 (nvmap "z]" 'sgml-skip-tag-forward)
+(nvmap "z'" 'selectHtmlTagBlock)
 (nvmap "z[" 'sgml-skip-tag-backward)
 (nvmap "zp" 'yank-and-indent)
 ;; (nvmap "zy" 'my-evil-paste-after-and-delete)
@@ -121,6 +133,7 @@
 (map! :leader
       (:prefix ("v" . "misc")
         :desc "copy filename"          "f"  #'copy_file_name
+        :desc "copy path"          "p"  #'copy-file-path-to-clipboard
         :desc ""                   "." #'dired-project-root
         :desc "goto function name" "a" #'gotofunname
         :desc "downlist"               "d"  #'down-list
@@ -158,3 +171,18 @@
 
 ;; (use-package! lsp-tailwindcss)
 (use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
+
+;; org mode
+;;
+(after! org
+  (define-key org-mode-map (kbd "C-c o") 'org-insert-subheading))
+
+;; Or you can create a custom function to insert a new headline at the same level
+;; (defun my/org-insert-heading-same-level ()
+;;   (interactive)
+;;   (org-insert-heading)
+;;   (outline-demote))
+
+;; ;; Bind the custom function to a key combination
+;; (after! org
+;;   (define-key org-mode-map (kbd "C-c N") 'my/org-insert-heading-same-level))

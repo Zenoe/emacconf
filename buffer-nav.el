@@ -129,3 +129,11 @@
       (message (kill-new (abbreviate-file-name ( file-name-nondirectory filename ))))
     (error "Couldn't find filename in current buffer")))
 
+(defun copy-file-path-to-clipboard ()
+  "Copy the current buffer file path to the clipboard."
+  (interactive)
+  (if (buffer-file-name)
+      (let ((file-path (buffer-file-name)))
+        (kill-new file-path)
+        (message "Copied file path to clipboard: %s" file-path))
+    (message "Buffer is not visiting a file")))
