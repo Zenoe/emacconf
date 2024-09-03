@@ -1,28 +1,5 @@
 ;;; ~/.doom.d/mysetting/misc.el -*- lexical-binding: t; -*-
 
-(defun gotofunname ()
-  (interactive)
-  (beginning-of-defun)
-  ;; skip function in the case
-  ;; export function fun(...) {}
-  (search-forward "function")
-  (if ( string-equal "(" (string (char-after)) )
-      (evil-forward-word-begin 2)
-    (evil-forward-word-begin 1)
-    )
-  (save-excursion
-    (let ((oldpt ( point ))
-          )
-      (while (not (memq (char-after) '(?\t ?\n ?\s ?\( ?\) ?\] ?\[)))
-        (evil-forward-char 1))
-      (unless (> (point) oldpt)
-        (backward-char 1)
-        )
-      (evil-yank oldpt  ( point ) )
-      )
-    )
-  )
-
 (defun YankFrom0 ()
   "replace the current word with text from register 0"
   (interactive)

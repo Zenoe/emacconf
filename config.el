@@ -135,7 +135,7 @@
         :desc "copy filename"          "f"  #'copy_file_name
         :desc "copy path"          "p"  #'copy-file-path-to-clipboard
         :desc ""                   "." #'dired-project-root
-        :desc "goto function name" "a" #'gotofunname
+        :desc "goto function name" "a" #'get-function-name
         :desc "downlist"               "d"  #'down-list
         :desc "uplist"               "u"  #'up-list
         :desc ""               "o"  #'insert-next-line

@@ -40,9 +40,6 @@
 ;; (add-hook 'typescript-mode-hook #'(lambda () (treesit-parser-create 'typescript)))
 (add-hook 'rjsx-mode-hook #'(lambda () (treesit-parser-create 'javascript)))
 
-(require 'treesit)
-;; todo , build emacs --with-tree-sitter
-
 
 (defun jsx/kill-region-and-goto-start (start end)
   "Kill the region between START and END, and move the point to START."
@@ -75,3 +72,4 @@
               (start (treesit-node-end opening-node))
               (end (treesit-node-start closing-node)))
     (jsx/kill-region-and-goto-start start end)))
+

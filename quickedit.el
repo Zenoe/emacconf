@@ -457,7 +457,7 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
         (let ((line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
           (when (and (= (current-indentation) current-indent)
                      (is-js-function-start line))
-            (+fold/toggle)
+            (+fold/close)
             ;; (push (line-number-at-pos) matching-lines)
             ))
         (forward-line 1)))
@@ -473,3 +473,92 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
   ;;      (back-to-indentation)
   ;;      (1+ (current-column)))))
   )
+;; (defun extract-javascript-function-names ()
+;;   "Extract JavaScript function names from the current buffer and display them."
+;;   (interactive)
+;;   (let ((function-names '())
+;;         (patterns '(
+;;                     "const \\([a-zA-Z0-9_$]+\\) *= *([^)]*) *=> *{"
+;;                     "const \\([a-zA-Z0-9_$]+\\) *= *() *=> *{"
+;;                     "const \\([a-zA-Z0-9_$]+\\) *= *[^ ]* *=> *{"
+;;                     "export function \\([a-zA-Z0-9_$]+\\) *([^)]*) *{"
+;;                     "export function \\([a-zA-Z0-9_$]+\\) *() *{"
+;;                     )))
+;;     (save-excursion
+;;       (goto-char (point-min))
+;;       (dolist (pattern patterns)
+;;         (while (re-search-forward pattern nil t)
+;;           (let ((name (match-string 1)))
+;;             (when name
+;;               (push name function-names))))))
+;;     (if function-names
+;;         (message "JavaScript function names: %s" (string-join (reverse function-names) ", "))
+;;       (message "No function names found."))))
+
+(defun get-function-name ()
+  (interactive)
+  (beginning-of-defun)
+  (let* ((line (thing-at-point 'line t))
+         (patterns '(
+                     "const \\([a-zA-Z0-9_$]+\\) *= *([^)]*) *=> *{"
+                     "const \\([a-zA-Z0-9_$]+\\) *= *() *=> *{"
+                     "const \\([a-zA-Z0-9_$]+\\) *= *[^ ]* *=> *{"
+                     "function \\([a-zA-Z0-9_$]+\\) *([^)]*) *{"
+                     "function \\([a-zA-Z0-9_$]+\\) *() *{"
+                     "export function \\([a-zA-Z0-9_$]+\\) *([^)]*) *{"
+                     "export function \\([a-zA-Z0-9_$]+\\) *() *{"
+                     ))
+         found-name)
+    (when line
+      (dolist (pattern patterns)
+        (when (string-match pattern line)
+          (setq found-name (match-string 1 line)))))
+    (if found-name
+        (progn
+          ;; (evil-set-register ?/ found-name)  ;; Copy the found name to the / register
+          (message "Function name: %s" found-name)
+          (setq string
+                (format "\\_<%s\\_>"
+                        (regexp-quote found-name)))
+          ;; (push string evil-ex-search-history)
+          (evil-push-search-history string 'forward)
+          (evil-search string 'forward t)
+          ;; (setq evil-ex-search-pattern found-name)
+          ;; n: evil-ex-search-next, get the search content from evil-ex-search-pattern
+          ;; not from the / register
+          (setq evil-ex-search-pattern (evil-ex-make-search-pattern string))
+          ;; (evil-search string 'forward t)
+          )
+      (message "No function name found on the current line."))))
+
+;; (evil-set-register ?/ "\\_<defun\\_>")
+;; (evil-set-register ?/ nil)
+
+;; reference
+;; (defun evil-search-word (forward unbounded symbol)
+;;   "Search for word near point.
+;; If FORWARD is nil, search backward, otherwise forward. If SYMBOL
+;; is non-nil then the functions searches for the symbol at point,
+;; otherwise for the word at point."
+;;   (let ((string (car regexp-search-ring)))
+;;     (setq isearch-forward forward)
+;;     (cond
+;;      ((and (memq last-command
+;;                  '(evil-search-word-forward
+;;                    evil-search-word-backward))
+;;            (stringp string)
+;;            (not (string= string "")))
+;;       (evil-search string forward t))
+;;      (t
+;;       (setq string (evil-find-thing forward (if symbol 'symbol 'evil-word)))
+;;       (cond
+;;        ((null string)
+;;         (user-error "No word under point"))
+;;        (unbounded
+;;         (setq string (regexp-quote string)))
+;;        (t
+;;         (setq string
+;;               (format (if symbol "\\_<%s\\_>" "\\<%s\\>")
+;;                       (regexp-quote string)))))
+;;       (evil-push-search-history string forward)
+;;       (evil-search string forward t)))))
