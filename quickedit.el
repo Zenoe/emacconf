@@ -433,6 +433,13 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
       )
   )
 
+(defun line-ends-with-paren-or-brace-p ()
+  "Return t if the current line ends with '(' or '{', otherwise nil."
+  (save-excursion
+    (end-of-line)
+    (let ((char-before (char-before)))
+      (or (eq char-before ?\() (eq char-before ?\{)))))
+
 (defun toggle-fold-indent ()
   "Toggle code folding according to indentation of current line."
   (interactive)
@@ -445,7 +452,7 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
       (while (not (eobp))
         (let ((line (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
           (when (and (= (current-indentation) current-indent)
-                     (is-js-function-start line))
+                     (or ( line-ends-with-paren-or-brace-p ) (is-js-function-start line)))
             ;; (push (line-number-at-pos) matching-lines)
             (+fold/toggle)
             ))
