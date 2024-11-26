@@ -44,7 +44,6 @@
 (nvmap "zs" 'surround-region-with-if)
 (nvmap "zw" 'move-buffer-to-window)
 (nvmap "zm" 'toggle-fold-indent)
-(nvmap "g;" 'gotoLastChange)
 (nvmap "ze" 'searchb4spaceorbracket)
 (nvmap "z]" 'sgml-skip-tag-forward)
 (nvmap "z'" 'selectHtmlTagBlock)
@@ -153,7 +152,12 @@
 ;;         )
 
 (load "doom-themes")
-(setq doom-theme 'wombat)
+(setq doom-theme 'doom-solarized-light)
+;; Customize the face for word being search in evil
+(custom-set-faces
+ '(evil-ex-lazy-highlight ((t (:background "#f4f4f4" :foreground "#FD7FFF"))))
+ '(company-tooltip-selection ((t (:background "#f4f4f4" :foreground "#FD7F00"))))
+ )
 
 ;; tmux would change ctrl shift arrow key binding to as follows
 ;; (global-set-key "\M-[1;6n" 'windmove-up)
@@ -165,9 +169,9 @@
 
 
 (require 'vertico)
-(custom-set-faces
- '(vertico-current ((t (:foreground "#839496" :background "#D02B36" :weight bold))))
- )
+;; (custom-set-faces
+;;  '(vertico-current ((t (:foreground "#839496" :background "#D02B36" :weight bold))))
+;;  )
 
 ;; (use-package! lsp-tailwindcss)
 (use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))

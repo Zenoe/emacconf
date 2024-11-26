@@ -68,12 +68,12 @@
   (evil-yank  (region-end) (region-beginning))
   )
 ;;
-(defun gotoLastChange ()
-  (interactive)
-  (goto-last-change 1)
-  (what-line)
-  (evil-scroll-line-to-center (line-number-at-pos))
-  )
+;; (defun gotoLastChange ()
+;;   (interactive)
+;;   (goto-last-change 1)
+;;   (what-line)
+;;   (evil-scroll-line-to-center (line-number-at-pos))
+;;   )
 
 (defun selcurrentline ()
   ;;; select current line.
@@ -504,6 +504,7 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
 
 (defun get-function-name ()
   (interactive)
+  (push-mark)
   (beginning-of-defun)
   (let* ((line (thing-at-point 'line t))
          (patterns '(
