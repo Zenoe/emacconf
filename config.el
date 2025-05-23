@@ -42,6 +42,7 @@
 (nvmap "z0" 'YankFrom0)
 (nvmap "z;" 'selectBlock)
 (nvmap "zs" 'surround-region-with-if)
+(nvmap "g/" 'my/evil-search-clipboard)
 (nvmap "zw" 'move-buffer-to-window)
 (nvmap "zm" 'toggle-fold-indent)
 (nvmap "ze" 'searchb4spaceorbracket)
@@ -139,6 +140,8 @@
         :desc "uplist"               "u"  #'up-list
         :desc ""               "o"  #'insert-next-line
         :desc ""                "j" #'projectile-find-file-dwim
+        :desc ""                "r" #'replace-buffer-with-clipboard
+        :desc ""                "k" #'my/search-js-functions-and-generate-import
 
         ;; :desc "uplist"                 "u"  #'backward-up-list
         ;; :desc "clip mon"            "c"  #'clipmon-autoinsert-toggle
@@ -155,7 +158,7 @@
 (setq doom-theme 'doom-solarized-light)
 ;; Customize the face for word being search in evil
 (custom-set-faces
- '(evil-ex-lazy-highlight ((t (:background "#f4f4f4" :foreground "#FD7FFF"))))
+ '(evil-ex-lazy-highlight ((t (:background "#f4f4f4" :foreground "#FD79FF"))))
  '(company-tooltip-selection ((t (:background "#f4f4f4" :foreground "#FD7F00"))))
  )
 

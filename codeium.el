@@ -1,5 +1,5 @@
 ;;; emacconf/codeium.el -*- lexical-binding: t; -*-
-(setq copilot-network-proxy '(:host "10.110.198.50" :port 11435 :rejectUnauthorized :json-false))
+;; (setq copilot-network-proxy '(:host "10.110.198.50" :port 11435 :rejectUnauthorized :json-false))
 
 ;; (defun copilot-complete ()
 ;;   (interactive)

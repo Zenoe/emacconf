@@ -539,6 +539,136 @@ Just like `forward-comment` but only for positive N and can use regexps instead 
           )
       (message "No function name found on the current line."))))
 
+(defun replace-buffer-with-clipboard ()
+  "Replace the entire buffer content with the text in the clipboard."
+  (interactive)
+  (erase-buffer) ;; Clear the buffer
+  (yank))        ;; Paste the clipboard content
+
+(defun my/debug-project-search-word-at-point ()
+  "Search the current project for the word at point and show results in a debug buffer."
+  (interactive)
+  (let* ((word (thing-at-point 'word t))
+         (project-root (or (project-root (project-current))
+                           default-directory))
+         (search-command (format "rg --no-heading --with-filename -n -e '%s' %s"
+                                 (shell-quote-argument word)
+                                 (shell-quote-argument project-root)))
+         (output (shell-command-to-string search-command))
+         (buffer (get-buffer-create "*Project Search Debug*")))
+
+    (if (string-empty-p word)
+        (message "No word at point to search for.")
+      (progn
+        (with-current-buffer buffer
+          (erase-buffer)
+          (insert output)
+          (display-buffer buffer))))))
+
+;; (defun my/search-js-functions-and-copy ()
+;;   "Search the project for the word at point, parse results for JS function signatures,
+;; then copy the function names + file paths to the kill ring."
+;;   (interactive)
+;;   (let* ((word (thing-at-point 'word t))
+;;          (project-root (or (project-root (project-current))
+;;                            default-directory))
+;;          (search-command (format "rg --no-heading --with-filename -n -e '%s' %s"
+;;                                  (shell-quote-argument word)
+;;                                  (shell-quote-argument project-root)))
+;;          (output (shell-command-to-string search-command))
+;;          (func-regex
+;;           ;; This handles common JS function patterns:
+;;           ;; function foo(...)
+;;           ;; const foo = (...)
+;;           ;; let foo = (...)
+;;           ;; var foo = (...)
+;;           ;; foo: function(...)
+;;           "\\(?:function\\|const\\|let\\|var\\|\\([a-zA-Z_$][a-zA-Z0-9_$]*\\)\\s-*:\\s-*function\\)\\s-+\\([a-zA-Z_$][a-zA-Z0-9_$]*\\)\\s-*(")
+;;          results)
+
+;;     (if (string-empty-p word)
+;;         (message "No word at point to search for.")
+;;       (progn
+;;         ;; Parse the ripgrep output
+;;         (dolist (line (split-string output "\n" t))
+;;           (when (string-match "\\(.*\\):\\([0-9]+\\):\\(.*\\)" line)
+;;             (let ((file (match-string 1 line))
+;;                   (lineno (match-string 2 line))
+;;                   (code (match-string 3 line)))
+;;               (when (string-match func-regex code)
+;;                 (let ((func-name (or (match-string 2 code)
+;;                                      (match-string 1 code)))) ;; handles foo: function()
+;;                   (push (format "%s %s:%s" func-name file lineno) results))))))
+
+;;         ;; Copy results to kill ring
+;;         (if results
+;;             (progn
+;;               (kill-new (string-join (reverse results) "\n"))
+;;               (message "Copied %d function(s) to clipboard" (length results)))
+;;           (message "No matching functions found."))))))
+
+
+;; dir-locals-read-from-dir returns:
+;; ((nil . ((VarName . Value)
+;;          (VarName2 . Value2))))
+(defun my/get-js-style (var-name)
+  "Retrieve the value of VAR-NAME from the .dir-locals.el file in the project root.
+Returns the value if found, otherwise returns nil."
+  (let* ((dir-locals-file (expand-file-name ".dir-locals.el" (project-root (project-current))))
+         (dir-locals (when (file-exists-p dir-locals-file)
+                       (with-temp-buffer
+                         (insert-file-contents dir-locals-file)
+                         (read (current-buffer))))))
+    (if dir-locals
+        (let ((var-value (cdr (assoc var-name (cdr (assoc 'nil dir-locals))))))
+          var-value)
+      (message ".dir-locals.el file not found or could not be read")
+      nil)))
+(defun my/search-js-functions-and-generate-import ()
+  "Search for function at point, parse file locations and signatures, then generate import statements."
+  (interactive)
+  (let* ((word (thing-at-point 'word t))
+         (project-root (or (project-root (project-current))
+                           default-directory))
+         (JSStyle (my/get-js-style 'JSStyle))
+         (search-command (format "rg --no-heading --with-filename -n -e '%s' %s"
+                                 (shell-quote-argument word)
+                                 (shell-quote-argument project-root)))
+         (output (shell-command-to-string search-command))
+         (func-regex
+          (concat
+           "\\(?:const\\|let\\|var\\)\\s-+\\([a-zA-Z_$][a-zA-Z0-9_$]*\\)\\s-*=\\s-*"
+           "\\(?:async\\s-+\\)?\\(?:function\\)?\\s-*("))
+         (results '())
+         (import-statements '()))
+
+    (if (string-empty-p word)
+        (message "No word at point to search for.")
+      (progn
+        (dolist (line (split-string output "\n" t))
+          (when (string-match "\\(.*\\):\\([0-9]+\\):\\(.*\\)" line)
+            (let* ((file (match-string 1 line))
+                   (lineno (match-string 2 line))
+                   (code (match-string 3 line))
+                   (relative-path (file-relative-name file project-root))
+                   (import-path (concat "@/" (file-name-sans-extension relative-path))))
+
+              (if (string-match func-regex code)
+                  (let ((func-name (match-string 1 code)))
+                    (push (format "%s %s:%s" func-name file lineno) results)
+
+                    (push (if (string-equal JSStyle "ES6")
+                              (format "import %s from '%s';" func-name import-path)
+                            (format "const %s = require('%s');" func-name import-path))
+                          import-statements))))))
+
+        (if results
+            (progn
+              (kill-new (string-join (reverse import-statements) "\n"))
+              (message "Copied %d import statement(s) to clipboard (Style: %s)"
+                       (length import-statements) JSStyle))
+          (message "No matching functions found."))))))
+
 ;; (evil-set-register ?/ "\\_<defun\\_>")
 ;; (evil-set-register ?/ nil)
 

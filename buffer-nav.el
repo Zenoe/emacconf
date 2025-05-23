@@ -71,6 +71,20 @@
             (goto-char (car bds))
             (insert start-tag)))))
 
+;; evil-ex-make-search-pattern builds a pattern object from the clipboard text.
+;; evil-ex-search-activate-highlight ensures highlighting works like a normal / search.
+;; evil-ex-search-next actually jumps to the first match.
+;; Sets direction to 'forward like pressing /.
+(defun my/evil-search-clipboard ()
+  "Search forward using Evil with the current system clipboard contents."
+  (interactive)
+  (let ((clipboard-text (current-kill 0)))
+    (when (and clipboard-text (not (string-empty-p clipboard-text)))
+      (setq evil-ex-search-direction 'forward)
+      (setq evil-ex-search-pattern (evil-ex-make-search-pattern clipboard-text))
+      (evil-ex-search-activate-highlight evil-ex-search-pattern)
+      (evil-ex-search-next))))
+
 (defun surround-region-with-if (tag)
     "Surround region with if/when statement."
     (interactive "sEnter if/when/: ")
