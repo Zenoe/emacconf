@@ -10,18 +10,25 @@
 
 ;;; key bindings
 ;;;
-(defvar myset-folder "~/.doom.d/emacconf")
-(load ( concat myset-folder "/customsetting"))
-(load ( concat myset-folder "/buffer-nav"))
-(load ( concat myset-folder "/project-nav"))
-(load ( concat myset-folder "/quickedit"))
-(load ( concat myset-folder "/super-save"))
-(load ( concat myset-folder "/tmux-keymap"))
-(load ( concat myset-folder "/window"))
-(load ( concat myset-folder "/embark-config"))
-(load ( concat myset-folder "/dap-config"))
-(load ( concat myset-folder "/codeium"))
-(load ( concat myset-folder "/treesitter"))
+(defvar my-config-folder "~/.doom.d/emacconf")
+
+;; List of all config files (without .el extension)
+(defvar my-config-files
+  '("customsetting"
+    "buffer-nav"
+    "project-nav"
+    "quickedit"
+    "super-save"
+    "tmux-keymap"
+    "window"
+    "embark-config"
+    "dap-config"
+    "codeium"
+    "treesitter"))
+
+;; Load all files
+(dolist (file my-config-files)
+  (load (expand-file-name (concat file ".el") my-config-folder)))
 ;; (mapc 'load (file-expand-wildcards "~/.doom.d/emacconf/*.el"))
 (setq confirm-kill-emacs nil)
 ;; var setting must come before mode setting t
@@ -177,7 +184,7 @@
 ;;  )
 
 ;; (use-package! lsp-tailwindcss)
-(use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
+;; (use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
 
 ;; org mode
 ;;
@@ -193,3 +200,8 @@
 ;; ;; Bind the custom function to a key combination
 ;; (after! org
 ;;   (define-key org-mode-map (kbd "C-c N") 'my/org-insert-heading-same-level))
+
+;;(multiple-cursors-mode nil)
+;;(global-evil-mc-mode  1)
+;; fix gibberish (messy code) when copy Chinese from another place
+(when (eq system-type 'windows-nt)  (set-next-selection-coding-system 'utf-16-le)  (set-selection-coding-system 'utf-16-le)  (set-clipboard-coding-system 'utf-16-le))(when (eq system-type 'windows-nt)  (set-next-selection-coding-system 'utf-16-le)  (set-selection-coding-system 'utf-16-le)  (set-clipboard-coding-system 'utf-16-le))
