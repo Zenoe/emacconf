@@ -7,7 +7,7 @@
 ;; Set environment variables for proxy
 (setenv "http_proxy" "http://10.110.198.52:20171")
 (setenv "https_proxy" "http://10.110.198.52:20171")
-
+(setq enable-local-variables :safe)
 ;;; key bindings
 ;;;
 (defvar my-config-folder "~/.doom.d/emacconf")
@@ -23,7 +23,8 @@
     "window"
     "embark-config"
     "dap-config"
-    "codeium"
+    "moreconfig"
+    ;; "codeium"
     "treesitter"))
 
 ;; Load all files
@@ -161,8 +162,6 @@
 ;;  :m  "ze"    #'searchb4spaceorbracket
 ;;         )
 
-(load "doom-themes")
-(setq doom-theme 'doom-solarized-light)
 ;; Customize the face for word being search in evil
 (custom-set-faces
  '(evil-ex-lazy-highlight ((t (:background "#f4f4f4" :foreground "#FD79FF"))))
